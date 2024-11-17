@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Crypto Calculator</h1>
+    </header>
+
+    <div class="contentBox">
+      <p>
+        <label for="crypto">Crypto:</label>
+        <select name="crypto" id="crypto">
+          <option value="bitcoin">BTC - Bitcoin</option>
+          <option value="ethereum">ETH - Ethereum</option>
+          <option value="icedCoffee">Iced Coffee</option>
+        </select>
+      </p>
+    </div>
+
+    <div class="contentBox">
+      <p>
+        <label for="currency">Currency:</label>
+        <select name="currency" id="currency">
+          <option value="eur">EUR (€)</option>
+          <option value="usd">USD ($)</option>
+        </select>
+      </p>
+    </div>
+
+    <div class="contentBox">
+      <label for="investAmount">Invest Amount:</label>
+      <input type="number" id="investAmount" />
+    </div>
+
+    <p></p>
+    &nbsp
+
+    <div class="contentBox">
+      <label for="currentPrice">Current Price:</label>
+      <input type="number" id="currentPrice" name="currentPrice" />
+    </div>
+
+    <p></p>
+    &nbsp
+
+    <div class="contentBox">
+      <label for="priceAtPurchase">Price At Purchase:</label>
+      <input type="number" id="priceAtPurchase" name="priceAtPurchase" />
+    </div>
+
+    <p></p>
+    &nbsp
+
+    <div class="contentBox">
+      <label for="projectedPrice">Projected Price:</label>
+      <input type="number" id="projectedPrice" />
+    </div>
+
+    <p></p>
+    &nbsp
+
+    <div class="contentBox">
+      <button id="calculateButton">Calculate</button>
+    </div>
+
+    <p></p>
+    &nbsp
+
+    <div>
+      <h2>Results:</h2>
+      <p class="summary">Your summary is: ...</p>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
