@@ -1,6 +1,7 @@
 "use strict";
 
 document.querySelector("#calculateButton").addEventListener("click", function () {
+  let cryptoOwned = Number(document.querySelector("#cryptoOwned"));
   let currentPrice = Number(document.querySelector("#currentPrice").value);
   let projectedPrice = Number(document.querySelector("#projectedPrice").value);
   let crypto = document.querySelector("#crypto").value;
@@ -10,25 +11,28 @@ document.querySelector("#calculateButton").addEventListener("click", function ()
 
   let commission = 0.99;
 
-  if (currency == "usd") {
+  if (currency == "USD") {
     investAmount *= 1.05;
     priceAtPurchase *= 1.05;
     projectedPrice *= 1.05;
     currentPrice *= 1.05;
   }
 
-  let currentCrypto = ((investAmount / priceAtPurchase) * commission).toFixed(2);
-  let cryptoGained = ((investAmount / currentPrice) * commission).toFixed(2);
+  //--------------------------------------------------------------------------------------------------------------------------------------------------------
+  //How much crypto would I gain if I invested _ amount at _ price:
+  let cryptoGained = (investAmount / currentPrice).toFixed(8);
 
-  let futureGain = (currentCrypto * projectedPrice - commission).toFixed(2);
+  //--------------------------------------------------------------------------------------------------------------------------------------------------------
+  //How much money would I have if I invested _ money at _ price and the price went up to _?:
 
-  let profit = (futureGain - investAmount).toFixed(2);
+  //Variables used:
+  //Invest Amount
+  //Price At Purchase
+  //Projected Price
 
-  console.log(profit);
-  console.log(futureGain);
-  console.log(cryptoGained);
-
-  document.querySelector(".summary").textContent = `Crypto Gained: ${cryptoGained} ${crypto}
-  Profit: x
-  `;
+  let boughtCrypto = (investAmount / priceAtPurchase).toFixed(8);
+  let futureValue = (boughtCrypto * projectedPrice).toFixed(2);
+  let profit = (futureValue - investAmount).toFixed(2);
+  //--------------------------------------------------------------------------------------------------------------------------------------------------------
+  document.querySelector(".summary").textContent = `With ${cryptoGained} ${crypto} You would have ${futureValue}${currency} worth of ${crypto} making a profit of ${profit}${currency}`;
 });

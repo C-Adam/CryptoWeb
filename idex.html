@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Crypto Pal</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <header>
-      <h1>Crypto Calculator</h1>
+      <h1>Welcome to Crypto Pal</h1>
     </header>
 
     <div class="contentBox">
@@ -17,7 +17,8 @@
         <select name="crypto" id="crypto">
           <option value="bitcoin">BTC - Bitcoin</option>
           <option value="ethereum">ETH - Ethereum</option>
-          <option value="icedCoffee">Iced Coffee</option>
+          <option value="dogecoin">DOGE - Dogecoin</option>
+          <option value="xrp">XRP</option>
         </select>
       </p>
     </div>
@@ -26,11 +27,19 @@
       <p>
         <label for="currency">Currency:</label>
         <select name="currency" id="currency">
-          <option value="eur">EUR (€)</option>
-          <option value="usd">USD ($)</option>
+          <option value="EUR">EUR (€)</option>
+          <option value="USD">USD ($)</option>
         </select>
       </p>
     </div>
+
+    <div class="contentBox">
+      <label for="cryptoOwned">Crypto Owned:</label>
+      <input type="number" id="cryptoOwned" name="cryptoOwned" />
+    </div>
+
+    <p></p>
+    &nbsp
 
     <div class="contentBox">
       <label for="investAmount">Invest Amount:</label>
