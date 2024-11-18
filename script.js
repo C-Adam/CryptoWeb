@@ -10,6 +10,7 @@ document.querySelector("#calculateButton").addEventListener("click", function ()
   let priceAtPurchase = Number(document.querySelector("#priceAtPurchase").value);
 
   let commission = 0.99;
+  let currencySymbol = currency == "EUR" ? "€" : "$";
 
   if (currency == "USD") {
     investAmount *= 1.05;
@@ -34,5 +35,11 @@ document.querySelector("#calculateButton").addEventListener("click", function ()
   let futureValue = (boughtCrypto * projectedPrice).toFixed(2);
   let profit = (futureValue - investAmount).toFixed(2);
   //--------------------------------------------------------------------------------------------------------------------------------------------------------
-  document.querySelector(".summary").textContent = `With ${cryptoGained} ${crypto} You would have ${futureValue}${currency} worth of ${crypto} making a profit of ${profit}${currency}`;
+  document.querySelector("#cryptoGained").textContent = `Crypto Gained: ${cryptoGained} ${crypto}`;
+
+  document.querySelector("#futureValue").textContent = `Future Value: ${currencySymbol}${futureValue} ${currency}`;
+
+  document.querySelector("#profit").textContent = `Profit: ${currencySymbol}${profit} ${currency}`;
+
+  // document.querySelector(".summary").textContent = `With ${cryptoGained} ${crypto} You would have ${futureValue}${currency} worth of ${crypto} making a profit of ${profit}${currency}`;
 });

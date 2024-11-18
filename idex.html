@@ -12,6 +12,10 @@
     </header>
 
     <div class="contentBox">
+      <p>Exchange Rate: USD -> EUR = 1.05</p>
+    </div>
+
+    <div class="contentBox">
       <p>
         <label for="crypto">Crypto:</label>
         <select name="crypto" id="crypto">
@@ -80,9 +84,13 @@
     <p></p>
     &nbsp
 
+    <!---------------------Results--------------------->
     <div>
       <h2>Results:</h2>
-      <p class="summary">Your summary is: ...</p>
+      <p class="summary" id="cryptoGained"></p>
+      <p class="summary" id="futureValue"></p>
+      <p class="summary" id="profit"></p>
+      <p class="summary"></p>
     </div>
     <script src="script.js"></script>
   </body>
