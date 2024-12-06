@@ -2,13 +2,14 @@
 
 let crypto = document.querySelector("#crypto");
 let currency = document.querySelector("#currency");
-let livePrice = document.querySelector("#livePrice");
+let currentPrice = document.querySelector("#currentPrice");
 
 let ws = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
 
 ws.onmessage = (event) => {
+  console.log("hi");
   let stockObject = JSON.parse(event.data);
-  livePrice.textContent = `Current Price: ${stockObject.p}`;
+  currentPrice.textContent = `${stockObject.p}`;
 };
 
 crypto.addEventListener("change", function () {
@@ -25,7 +26,7 @@ currency.addEventListener("change", function () {
 
 document.querySelector("#calculateButton").addEventListener("click", function () {
   let cryptoOwned = Number(document.querySelector("#cryptoOwned"));
-  let currentPrice = Number(document.querySelector("#currentPrice").value);
+  let currentPrice = Number(document.querySelector("#currentPrice").textContent);
   let projectedPrice = Number(document.querySelector("#projectedPrice").value);
   let crypto = document.querySelector("#crypto").value;
   let currency = document.querySelector("#currency").value;
