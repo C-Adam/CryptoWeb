@@ -11,19 +11,17 @@ ws.onmessage = (event) => {
   livePrice.textContent = `Current Price: ${stockObject.p}`;
 };
 
-// crypto.addEventListener("change", function () {
-//   let crypto = document.querySelector("#crypto");
-//   let currency = document.querySelector("#currency");
-//   ws.close();
-//   console.log("old ws closed");
+crypto.addEventListener("change", function () {
+  ws.close();
+  ws = null;
+  ws = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
+});
 
-//   let newWs = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
-
-//   newWs.onmessage = (event) => {
-//     let stockObject = JSON.parse(event.data);
-//     livePrice.textContent = `Current Price: ${stockObject.p}`;
-//   }; //FIX, NEED TO SHOW NEW
-// });
+currency.addEventListener("change", function () {
+  ws.close();
+  ws = null;
+  ws = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
+});
 
 document.querySelector("#calculateButton").addEventListener("click", function () {
   let cryptoOwned = Number(document.querySelector("#cryptoOwned"));
