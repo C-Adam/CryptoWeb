@@ -12,16 +12,12 @@
     </header>
 
     <div class="contentBox">
-      <p>Exchange Rate: USD -> EUR = 1.05</p>
-    </div>
-
-    <div class="contentBox">
       <p>
         <label for="crypto">Crypto:</label>
         <select name="crypto" id="crypto">
-          <option value="bitcoin">BTC - Bitcoin</option>
-          <option value="ethereum">ETH - Ethereum</option>
-          <option value="dogecoin">DOGE - Dogecoin</option>
+          <option value="btc">BTC - Bitcoin</option>
+          <option value="eth">ETH - Ethereum</option>
+          <option value="doge">DOGE - Dogecoin</option>
           <option value="xrp">XRP</option>
         </select>
       </p>
@@ -31,10 +27,14 @@
       <p>
         <label for="currency">Currency:</label>
         <select name="currency" id="currency">
-          <option value="EUR">EUR (€)</option>
-          <option value="USD">USD ($)</option>
+          <option value="eur">EUR (€)</option>
+          <option value="usd">USD ($)</option>
         </select>
       </p>
+    </div>
+
+    <div class="contentBox">
+      <p id="livePrice">Current Price:</p>
     </div>
 
     <div class="contentBox">

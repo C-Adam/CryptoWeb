@@ -1,5 +1,30 @@
 "use strict";
 
+let crypto = document.querySelector("#crypto");
+let currency = document.querySelector("#currency");
+let livePrice = document.querySelector("#livePrice");
+
+let ws = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
+
+ws.onmessage = (event) => {
+  let stockObject = JSON.parse(event.data);
+  livePrice.textContent = `Current Price: ${stockObject.p}`;
+};
+
+// crypto.addEventListener("change", function () {
+//   let crypto = document.querySelector("#crypto");
+//   let currency = document.querySelector("#currency");
+//   ws.close();
+//   console.log("old ws closed");
+
+//   let newWs = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
+
+//   newWs.onmessage = (event) => {
+//     let stockObject = JSON.parse(event.data);
+//     livePrice.textContent = `Current Price: ${stockObject.p}`;
+//   }; //FIX, NEED TO SHOW NEW
+// });
+
 document.querySelector("#calculateButton").addEventListener("click", function () {
   let cryptoOwned = Number(document.querySelector("#cryptoOwned"));
   let currentPrice = Number(document.querySelector("#currentPrice").value);
