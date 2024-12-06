@@ -4,6 +4,27 @@ let crypto = document.querySelector("#crypto");
 let currency = document.querySelector("#currency");
 let currentPrice = document.querySelector("#currentPrice");
 
+// let btcEurLivePrice = 0;
+// let btcUsdLivePrice = 0;
+// let ethEurLivePrice = 0;
+// let ethUSDLivePRice = 0;
+
+// let btcEurWs = new WebSocket("wss://stream.binance.com:9443/ws/BTCEUR@trade");
+
+// let btcUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/BTCUSD@trade");
+
+// let ethEurWs = new WebSocket("wss://stream.binance.com:9443/ws/ETHEUR@trade");
+
+// let ethUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/ETHUSD@trade");
+
+// btcEurWs.onmessage = (event) => {
+//   console.log("hi");
+//   let stockObject = JSON.parse(event.data);
+//   currentPrice.textContent = `${stockObject.p}`;
+// };
+
+//-----------------------------------------------------
+
 let ws = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
 
 ws.onmessage = (event) => {
