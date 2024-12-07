@@ -16,10 +16,10 @@
       <p>
         <label for="crypto">Crypto:</label>
         <select name="crypto" id="crypto">
-          <option value="BTC">BTC - Bitcoin</option>
-          <option value="ETH">ETH - Ethereum</option>
-          <option value="DOGE">DOGE - Dogecoin</option>
-          <option value="XRP">XRP</option>
+          <option value="unselected">-</option>
+          <option value="btc">BTC - Bitcoin</option>
+          <option value="eth">ETH - Ethereum</option>
+          <option value="xrp">XRP</option>
         </select>
       </p>
     </div>
@@ -28,24 +28,16 @@
       <p>
         <label for="currency">Currency:</label>
         <select name="currency" id="currency">
-          <option value="EUR">EUR (€)</option>
-          <option value="USD">USD ($)</option>
+          <option value="eur">EUR (€)</option>
+          <option value="usd">USD ($)</option>
         </select>
       </p>
     </div>
 
     <div class="contentBox">
       <p>Current Price:</p>
-      <p id="currentPrice">...</p>
+      <p id="currentPrice">-</p>
     </div>
-
-    <div class="contentBox">
-      <label for="cryptoOwned">Crypto Owned:</label>
-      <input type="number" id="cryptoOwned" name="cryptoOwned" />
-    </div>
-
-    <p></p>
-    &nbsp
 
     <div class="contentBox">
       <label for="investAmount">Invest Amount:</label>

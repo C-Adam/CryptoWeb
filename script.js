@@ -4,60 +4,85 @@ let crypto = document.querySelector("#crypto");
 let currency = document.querySelector("#currency");
 let currentPrice = document.querySelector("#currentPrice");
 
-// let btcEurLivePrice = 0;
-// let btcUsdLivePrice = 0;
-// let ethEurLivePrice = 0;
-// let ethUSDLivePRice = 0;
+//--Live Prices
+let btcEurLivePrice = 0;
+let btcUsdLivePrice = 0;
+let ethEurLivePrice = 0;
+let ethUsdLivePrice = 0;
+let xrpEurLivePrice = 0;
+let xrpUsdLivePrice = 0;
 
-// let btcEurWs = new WebSocket("wss://stream.binance.com:9443/ws/BTCEUR@trade");
+//--Web Sockets
+let btcEurWs = new WebSocket("wss://stream.binance.com:9443/ws/btceur@trade");
+let btcUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/btcusdt@trade");
+let ethEurWs = new WebSocket("wss://stream.binance.com:9443/ws/etheur@trade");
+let ethUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/ethusdt@trade");
+let xrpEurWs = new WebSocket("wss://stream.binance.com:9443/ws/xrpeur@trade");
+let xrpUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/xrpusdt@trade");
 
-// let btcUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/BTCUSD@trade");
-
-// let ethEurWs = new WebSocket("wss://stream.binance.com:9443/ws/ETHEUR@trade");
-
-// let ethUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/ETHUSD@trade");
-
-// btcEurWs.onmessage = (event) => {
-//   console.log("hi");
-//   let stockObject = JSON.parse(event.data);
-//   currentPrice.textContent = `${stockObject.p}`;
-// };
-
-//-----------------------------------------------------
-
-let ws = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
-
-ws.onmessage = (event) => {
-  console.log("hi");
+//--Socket Methods
+btcEurWs.onmessage = (event) => {
   let stockObject = JSON.parse(event.data);
-  currentPrice.textContent = `${stockObject.p}`;
+  btcEurLivePrice = stockObject.p;
 };
 
-crypto.addEventListener("change", function () {
-  ws.close();
-  ws = null;
-  ws = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
-});
+btcUsdWs.onmessage = (event) => {
+  let stockObject = JSON.parse(event.data);
+  btcUsdLivePrice = stockObject.p;
+};
 
-currency.addEventListener("change", function () {
-  ws.close();
-  ws = null;
-  ws = new WebSocket(`wss://stream.binance.com:9443/ws/${crypto.value}${currency.value}@trade`);
-});
+ethEurWs.onmessage = (event) => {
+  let stockObject = JSON.parse(event.data);
+  ethEurLivePrice = stockObject.p;
+};
 
+ethUsdWs.onmessage = (event) => {
+  let stockObject = JSON.parse(event.data);
+  ethUsdLivePrice = stockObject.p;
+};
+
+xrpEurWs.onmessage = (event) => {
+  let stockObject = JSON.parse(event.data);
+  xrpEurLivePrice = stockObject.p;
+};
+
+xrpUsdWs.onmessage = (event) => {
+  let stockObject = JSON.parse(event.data);
+  xrpUsdLivePrice = stockObject.p;
+};
+
+//--Update Live Price Function
+function UpdateLivePrice() {
+  switch (crypto.value) {
+    case "unselected":
+      currentPrice.textContent = "";
+      break;
+    case "btc":
+      currency.value == "eur" ? (currentPrice.textContent = btcEurLivePrice) : (currentPrice.textContent = btcUsdLivePrice);
+      break;
+    case "eth":
+      currency.value == "eur" ? (currentPrice.textContent = ethEurLivePrice) : (currentPrice.textContent = ethUsdLivePrice);
+      break;
+    case "xrp":
+      currency.value == "eur" ? (currentPrice.textContent = xrpEurLivePrice) : (currentPrice.textContent = xrpUsdLivePrice);
+      break;
+  }
+}
+
+//--Selector Methods
+crypto.addEventListener("change", UpdateLivePrice);
+currency.addEventListener("change", UpdateLivePrice);
+
+//--Calculate Button Function
 document.querySelector("#calculateButton").addEventListener("click", function () {
-  let cryptoOwned = Number(document.querySelector("#cryptoOwned"));
-  let currentPrice = Number(document.querySelector("#currentPrice").textContent);
-  let projectedPrice = Number(document.querySelector("#projectedPrice").value);
-  let crypto = document.querySelector("#crypto").value;
-  let currency = document.querySelector("#currency").value;
   let investAmount = Number(document.querySelector("#investAmount").value);
   let priceAtPurchase = Number(document.querySelector("#priceAtPurchase").value);
+  let projectedPrice = Number(document.querySelector("#projectedPrice").value);
 
   let commission = 0.99;
-  let currencySymbol = currency == "EUR" ? "€" : "$";
+  let currencySymbol = currency == "eur" ? "€" : "$";
 
-  if (currency == "USD") {
+  if (currency == "usd") {
     investAmount *= 1.05;
     priceAtPurchase *= 1.05;
     projectedPrice *= 1.05;
