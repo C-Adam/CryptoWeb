@@ -2,7 +2,7 @@
 
 let crypto = document.querySelector("#crypto");
 let currency = document.querySelector("#currency");
-let currentPrice = document.querySelector("#currentPrice");
+let livePrice = document.querySelector("#livePrice");
 
 //--Live Prices
 let btcEurLivePrice = 0;
@@ -20,6 +20,24 @@ let ethUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/ethusdt@trade");
 let xrpEurWs = new WebSocket("wss://stream.binance.com:9443/ws/xrpeur@trade");
 let xrpUsdWs = new WebSocket("wss://stream.binance.com:9443/ws/xrpusdt@trade");
 
+//--Update Live Price Function
+function UpdateLivePrice() {
+  switch (crypto.value) {
+    case "unselected":
+      livePrice.textContent = "";
+      break;
+    case "btc":
+      currency.value == "eur" ? (livePrice.textContent = btcEurLivePrice) : (livePrice.textContent = btcUsdLivePrice);
+      break;
+    case "eth":
+      currency.value == "eur" ? (livePrice.textContent = ethEurLivePrice) : (livePrice.textContent = ethUsdLivePrice);
+      break;
+    case "xrp":
+      currency.value == "eur" ? (livePrice.textContent = xrpEurLivePrice) : (livePrice.textContent = xrpUsdLivePrice);
+      break;
+  }
+}
+
 //--Socket Methods
 btcEurWs.onmessage = (event) => {
   let stockObject = JSON.parse(event.data);
@@ -29,6 +47,7 @@ btcEurWs.onmessage = (event) => {
 btcUsdWs.onmessage = (event) => {
   let stockObject = JSON.parse(event.data);
   btcUsdLivePrice = stockObject.p;
+  UpdateLivePrice(); //We put this here because we want to update as much as possible and btcusd receives the most updates making it update the fastest out of all websockets
 };
 
 ethEurWs.onmessage = (event) => {
@@ -51,67 +70,68 @@ xrpUsdWs.onmessage = (event) => {
   xrpUsdLivePrice = stockObject.p;
 };
 
-//--Update Live Price Function
-function UpdateLivePrice() {
-  switch (crypto.value) {
-    case "unselected":
-      currentPrice.textContent = "";
-      break;
-    case "btc":
-      currency.value == "eur" ? (currentPrice.textContent = btcEurLivePrice) : (currentPrice.textContent = btcUsdLivePrice);
-      break;
-    case "eth":
-      currency.value == "eur" ? (currentPrice.textContent = ethEurLivePrice) : (currentPrice.textContent = ethUsdLivePrice);
-      break;
-    case "xrp":
-      currency.value == "eur" ? (currentPrice.textContent = xrpEurLivePrice) : (currentPrice.textContent = xrpUsdLivePrice);
-      break;
-  }
-}
-
 //--Selector Methods
 crypto.addEventListener("change", UpdateLivePrice);
 currency.addEventListener("change", UpdateLivePrice);
+
+//--Find Current Price Function
+function FindCurrentPrice() {
+  let cp;
+
+  switch (crypto.value) {
+    case "unselected":
+      cp = "_";
+      break;
+    case "btc":
+      currency.value == "eur" ? (cp = btcEurLivePrice) : (cp = btcUsdLivePrice);
+      break;
+    case "eth":
+      currency.value == "eur" ? (cp = ethEurLivePrice) : (cp = ethUsdLivePrice);
+      break;
+    case "xrp":
+      currency.value == "eur" ? (cp = xrpEurLivePrice) : (cp = xrpUsdLivePrice);
+      break;
+  }
+  return cp;
+}
 
 //--Calculate Button Function
 document.querySelector("#calculateButton").addEventListener("click", function () {
   let investAmount = Number(document.querySelector("#investAmount").value);
   let priceAtPurchase = Number(document.querySelector("#priceAtPurchase").value);
   let projectedPrice = Number(document.querySelector("#projectedPrice").value);
-
-  let commission = 0.99;
+  let currentPrice = Number(FindCurrentPrice()); //Finds the current crypto and currency that we are tracking.
   let currencySymbol = currency == "eur" ? "€" : "$";
 
-  if (currency == "usd") {
-    investAmount *= 1.05;
-    priceAtPurchase *= 1.05;
-    projectedPrice *= 1.05;
-    currentPrice *= 1.05;
+  if (isNaN(currentPrice)) {
+    document.querySelector("#cryptoGained").textContent = "Please Select a Cryptocurrency to receive results.";
+    return; //Ensures that if no crypto is selected, don't continue the calculations.
   }
-
-  //--------------------------------------------------------------------------------------------------------------------------------------------------------
-  //How much crypto would I gain if I invested _ amount at _ price:
+  //How much crypto would I gain if I invested _ amount at _ price?
   let cryptoGained = Number((investAmount / currentPrice).toFixed(8));
 
-  //--------------------------------------------------------------------------------------------------------------------------------------------------------
   //How much money would I have if I invested _ money at _ price and the price went up to _?:
-
   //Variables used:
   //Invest Amount
   //Price At Purchase
   //Projected Price
-
   let boughtCrypto = (investAmount / priceAtPurchase).toFixed(8);
   let futureValue = (boughtCrypto * projectedPrice).toFixed(2);
-  let profit = ((futureValue - investAmount) * commission).toFixed(2);
-  //--------------------------------------------------------------------------------------------------------------------------------------------------------
-  if (cryptoGained == "Infinity") {
-    document.querySelector("#cryptoGained").textContent = "`Crypto Gained: _`";
+  let profit = (futureValue - investAmount).toFixed(2);
+
+  //-----------
+  if (cryptoGained == 0) {
+    document.querySelector("#cryptoGained").textContent = `Crypto Gained: _`;
   } else {
-    document.querySelector("#cryptoGained").textContent = `Crypto Gained: ${cryptoGained} ${crypto}`;
+    document.querySelector("#cryptoGained").textContent = `Crypto Gained: ${cryptoGained} ${crypto.value}`;
   }
 
-  document.querySelector("#futureValue").textContent = `Future Value: ${currencySymbol}${futureValue} ${currency}`;
+  console.log(futureValue);
+  if (isNaN(futureValue)) {
+    document.querySelector("#futureValue").textContent = `Future Value: _`;
+  } else {
+    document.querySelector("#futureValue").textContent = `Future Value: ${currencySymbol}${futureValue}`;
+  }
 
-  document.querySelector("#profit").textContent = `Profit: ${currencySymbol}${profit} ${currency}`;
+  document.querySelector("#profit").textContent = `Profit: ${currencySymbol}${profit}`;
 });
